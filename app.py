@@ -46,7 +46,12 @@ def register():
             foto.save(foto_path)
 
         # encriptar password
-        password_hash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+        stored_password = usuario["password"]
+
+if isinstance(stored_password, str):
+    stored_password = stored_password.encode("utf-8")
+
+if bcrypt.checkpw(password.encode("utf-8"), stored_password):
 
         # guardar usuario
         usuarios.insert_one({
